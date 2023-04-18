@@ -135,14 +135,24 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
+    <ClInclude Include="output1.txt" />
     <ClInclude Include="Testing.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="board10.txt" />
+    <Text Include="board100.txt" />
+    <Text Include="board4.txt" />
     <Text Include="board5.txt" />
     <Text Include="board1.txt" />
     <Text Include="board2.txt" />
+    <Text Include="command1.txt" />
+    <Text Include="command2.txt" />
+    <Text Include="command3.txt" />
     <Text Include="input.txt" />
     <Text Include="output.txt" />
+    <Text Include="output2.txt" />
+    <Text Include="output3.txt" />
+    <Text Include="playingInput.txt" />
     <Text Include="standByInput.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

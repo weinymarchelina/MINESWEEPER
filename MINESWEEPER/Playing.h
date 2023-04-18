@@ -11,6 +11,7 @@ private:
     int remainBlankCount;
     bool isEnd;
     bool clickFailed;
+    char previousChar;
 
 public:
     Playing(int row, int col, vector<vector<char>>& board)
@@ -23,9 +24,8 @@ public:
         this->col = col;
         isEnd = false;
         clickFailed = false;
+        previousChar = ' ';
 
-        // find bombCount first so that no error when calculating remainBlankCount later
-        // just need to count bombs once because the number of bombs will not be changed
         for (int i = 0; i < row; i++)
         {
             for (int j = 0; j < col; j++)
@@ -37,51 +37,59 @@ public:
         }
     }
 
-    void printBombCount()
+    void calculateBlankCount(vector<vector<char>>& board)
     {
-        cout << bombCount << endl;
-    }
+        this->remainBlankCount = 0;
+        this->openBlankCount = 0;
 
-    void printFlagCount(vector<vector<char>>& board)
-    {
-        cout << flagCount << endl;
-    }
-
-    void printOpenBlankCount(vector<vector<char>>& board)
-    {
         for (int i = 0; i < row; i++)
         {
             for (int j = 0; j < col; j++)
             {
                 if (isdigit(board[i][j]))
                 {
-                    openBlankCount++;
+                    this->openBlankCount++;
                 }
-            }
-        }
-
-        cout << openBlankCount << endl;
-    }
-
-    void printRemainBlankCount(vector<vector<char>>& board)
-    {
-        for (int i = 0; i < row; i++)
-        {
-            for (int j = 0; j < col; j++)
-            {
-                if (board[i][j] == '#')
+                else
                 {
-                    remainBlankCount++;
+                    this->remainBlankCount++;
                 }
             }
         }
 
-        remainBlankCount -= bombCount;
-
-        cout << remainBlankCount << endl;
+        this->remainBlankCount -= bombCount;
     }
 
-    void openCell(vector<vector<char>>& board, vector<vector<char>>& ans, int x, int y)
+    int getBombCount()
+    {
+        // cout << bombCount << endl;
+        return bombCount;
+    }
+
+    int getFlagCount()
+    {
+        // cout << flagCount << endl;
+        return flagCount;
+    }
+
+    int getOpenBlankCount()
+    {
+        // cout << openBlankCount << endl;
+        return openBlankCount;
+    }
+
+    int getRemainBlankCount()
+    {
+        // cout << remainBlankCount << endl;
+        return remainBlankCount;
+    }
+
+    void setPreviousChar(vector<vector<char>>& board, int x, int y)
+    {
+        this->previousChar = board[x][y];
+    }
+
+    void leftClick(vector<vector<char>>& board, vector<vector<char>>& ans, int x, int y)
     {
         if (x < 0 || x >= board.size() || y < 0 || y >= board[0].size())
         {
@@ -89,35 +97,52 @@ public:
             return;
         }
 
-        if (board[x][y] == 'f' || board[x][y] == '?' || isdigit(board[x][y]))
+        if (board[x][y] == 'f' || isdigit(board[x][y]))
         {
             this->clickFailed = true;
             return;
         }
-        else if (board[x][y] == '#' && ans[x][y] == '0')
+
+        if ((board[x][y] == '#' || board[x][y] == '?') && ans[x][y] == '0') 
         {
-            openCell(board, ans, x - 1, y - 1);
-            openCell(board, ans, x - 1, y);
-            openCell(board, ans, x - 1, col + 1);
-            openCell(board, ans, x, y - 1);
-            openCell(board, ans, x, y + 1);
-            openCell(board, ans, x + 1, y - 1);
-            openCell(board, ans, x + 1, y);
-            openCell(board, ans, x + 1, y + 1);
+            board[x][y] = '0';
+
             remainBlankCount--;
+
+            for (int i = -1; i <= 1; i++) 
+            {
+                for (int j = -1; j <= 1; j++) 
+                {
+                    if (i == 0 && j == 0) 
+                    {
+                        continue;
+                    }
+
+                    int nx = x + i;
+                    int ny = y + j;
+
+                    leftClick(board, ans, nx, ny);
+                }
+            }
         }
-        else if (board[x][y] == '#' && isdigit(ans[x][y]) && ans[x][y] != '0')
+        else if ((board[x][y] == '#' || board[x][y] == '?') && isdigit(ans[x][y]) && ans[x][y] != '0')
         {
             board[x][y] = ans[x][y];
             remainBlankCount--;
         }
         else if (ans[x][y] == 'X')
         {
-            cout << "You lose the game" << endl;
             this->isEnd = true;
             return;
         }
+    }
 
+    void recheckLeftClick(vector<vector<char>>& board, int x, int y)
+    {
+        if (isdigit(board[x][y]) && (this->previousChar == '#' || this->previousChar == '?'))
+        {
+            this->clickFailed = false;
+        }
     }
 
     void markFlag(vector<vector<char>>& board, int x, int y)
@@ -159,22 +184,25 @@ public:
         }
     }
 
-    void judgeWin()
-    {
-        cout << "remain: " << this->remainBlankCount << endl;
-
-        if (this->remainBlankCount == 0)
-        {
-            cout << "You win the game" << endl;
-            this->isEnd = true;
-        }
-    }
-
-    void judgeEnd(State& gameState)
+    void judgeWin(bool& isWin, bool& isEnd, State& gameState, vector<vector<char>>& board)
     {
         if (this->isEnd)
         {
             gameState = gameOverState;
+            isEnd = true;
+            isWin = false;
+            return;
+        }
+        
+        calculateBlankCount(board);
+        cout << "Remain: " << this->remainBlankCount << endl;
+
+        if (this->remainBlankCount == 0)
+        {
+            gameState = gameOverState;
+            this->isEnd = true;
+            isEnd = true;
+            isWin = true;
         }
     }
 
@@ -189,23 +217,6 @@ public:
         return false;
     }
 
-
-    void handleEnd(State& gameState)
-    {
-        clickFailed = false;
-
-        if (checkClickFailed())
-        {
-            // print error
-            cout << "lmao error" << endl;
-        }
-        else
-        {
-            cout << "do u win?" << endl;
-            judgeWin();
-            judgeEnd(gameState);
-        }
-    }
 };
 
 

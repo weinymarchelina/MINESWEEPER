@@ -51,7 +51,6 @@ public:
 
         if (!inputFile.is_open())
         {
-            // cout << "<Board Error> : " << inputFileName << " is not found" << endl;
             errorMsg = inputFileName + " is not found";
             isError = true;
             return;
@@ -71,6 +70,15 @@ public:
 
         this->row = row;
         this->col = col;
+
+        cout << row << " " << col << endl;
+
+        if (row < 0 || col < 0)
+        {
+            errorMsg = "Invalid row and column";
+            isError = true;
+            return;
+        }
 
         board.resize(row, vector<char>(col));
 
@@ -247,5 +255,4 @@ public:
     {
         return this->col;
     }
-
 };

@@ -83,7 +83,7 @@ public:
 			break;
 
 		case gameOverState:
-			formattedString += "Game Over";
+			formattedString += "GameOver";
 			break;
 
 		default:
@@ -127,4 +127,74 @@ public:
 		cout << formatString("Input Error") << "Instruction Invalid" << endl;
 	}
 
+	void printInvalidCommand(string command, istringstream& remaining)
+	{
+		if (command == "Load" || command == "LeftClick" || command == "RightClick")
+		{
+			string fullLine = command;
+			string dummy = "";
+
+			/*
+			for (int i = 0; i < 2; i++)
+			{
+				remaining >> dummy;
+				fullLine += " " + dummy;
+			}
+			*/
+
+			while (remaining >> dummy)
+			{
+				fullLine += " " + dummy;
+			}
+			 
+			cout << formatStatusString(fullLine, false) << endl;
+			outputFile << formatStatusString(fullLine, false) << '\n';
+		}
+		else if (command == "Replay" || command == "Quit")
+		{
+			cout << formatStatusString(command, false) << endl;
+			outputFile << formatStatusString(command, false) << '\n';
+		}
+		else
+		{
+			// printInstructionError();
+			string fullLine = command;
+			string dummy = "";
+
+			while (remaining >> dummy)
+			{
+				fullLine += " " + dummy;
+			}
+
+			cout << formatStatusString(fullLine, false) << endl;
+			outputFile << formatStatusString(fullLine, false) << '\n';
+		}
+
+		/*
+		else if (command == "Print")
+		{
+			string fullLine = command;
+			string dummy = "";
+			remaining >> dummy;
+			fullLine += " " + dummy;
+			
+			cout << formatStatusString(fullLine, false) << endl;
+			outputFile << formatStatusString(fullLine, false) << '\n';
+		}
+		*/
+	}
+
+	void printWinLose(bool isWin)
+	{
+		if (isWin)
+		{
+			cout << "You win the game" << endl;
+			outputFile << "You win the game" << "\n";
+		}
+		else
+		{
+			cout << "You lose the game" << endl;
+			outputFile << "You lose the game" << "\n";
+		}
+	}
 };

@@ -38,6 +38,9 @@
     <ClInclude Include="Testing.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="output1.txt">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="board1.txt">
@@ -56,6 +59,33 @@
       <Filter>Source Files</Filter>
     </Text>
     <Text Include="standByInput.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="playingInput.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="command1.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="board10.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="command2.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="command3.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="board4.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="board100.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="output2.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="output3.txt">
       <Filter>Source Files</Filter>
     </Text>
   </ItemGroup>

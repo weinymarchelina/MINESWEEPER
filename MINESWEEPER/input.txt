@@ -1,12 +1,18 @@
-Print Gamestate
+Print GameState
 Load BoardFile board1.txt
 LeftClick 0 0
 StartGame
+Print GameState
 Print GameBoard
 Print GameAnswer
-Print Gamestate
+Print GameState
+Print BombCount
+Print FlagCount
+Print OpenBlankCount
+Print RemainBlankCount
 LeftClick 1 1
 RightClick 2 4
 RightClick 2 4
 RightClick 2 4
 LeftClick 2 4
+Quit
