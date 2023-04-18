@@ -2,8 +2,6 @@
 
 class GameOver
 {
-private:
-
 public:
 	void replay(State& gameState)
 	{

@@ -12,12 +12,29 @@ bool isExit = false;
 int main()
 {
     string inputMethod, inputFile, outputFile;
-    // cin >> inputMethod >> inputMethod >> inputFile >> outputFile;
-    // Start gameStart("inputFile", "outputFile");
-    Start gameStart("command1.txt", "output1.txt");
-    // Start gameStart("command2.txt", "output2.txt");
-    // Start gameStart("command3.txt", "output3.txt");
-    gameStart.readInputFile();
+    Start gameStart;
+
+    do 
+    {
+        // cin >> inputMethod >> inputMethod >> inputFile >> outputFile;
+        // inputFile = "command1.txt";
+        // outputFile = "output1.txt";
+        // inputFile = "command2.txt";
+        // outputFile = "output2.txt";
+        inputFile = "command3.txt";
+        outputFile = "output3.txt";
+
+        gameStart.setFiles(inputFile, outputFile);
+    } while (!gameStart.readInputFile());
+
+    /*
+    MineSweeper.exe CommandFile (input.txt) (output.txt)
+    MineSweeper.exe CommandFile LMAO.txt outputLmao.txt
+    MineSweeper.exe CommandFile command1.txt output1.txt
+    MineSweeper.exe CommandFile command2.txt output2.txt
+    MineSweeper.exe CommandFile command3.txt output3.txt
+    */
+    
     gameState = standByState;
     
     while (!isExit)
@@ -31,7 +48,6 @@ int main()
 
         while (gameState == standByState)
         {
-            // cout << endl << "STANDBY STATE COMMAND" << endl;
             istringstream inputLine = gameStart.getCommand();
             string command;
             string fullInputLine = "";
@@ -129,7 +145,6 @@ int main()
 
         while (gameState == playingState)
         {
-            cout << endl << "PLAYING COMMAND" << endl;
             istringstream inputLine = gameStart.getCommand();
             string command;
             string fullInputLine = "";
@@ -164,7 +179,6 @@ int main()
                 if (gamePlaying.checkClickFailed())
                 {
                     gameStart.printOutput(gameStart.formatStatusString(fullInputLine, false));
-                    // gameStart.printBoard(playingBoard);
                 }
                 else
                 {
@@ -175,7 +189,6 @@ int main()
                     {
                         gameStart.printWinLose(isWin);
                     }
-                    // gameStart.printBoard(playingBoard);
                 }
             }
             else if (command == "Print")
@@ -235,7 +248,6 @@ int main()
 
         while (gameState == gameOverState)
         {
-            // cout << endl << "GAME OVER COMMAND" << endl;
             istringstream inputLine = gameStart.getCommand();
             string command;
             string fullInputLine = "";
@@ -297,6 +309,7 @@ int main()
         }
     }
 
+    gameStart.printCheckFiles(inputFile, outputFile, true);
 
     return 0;
 }

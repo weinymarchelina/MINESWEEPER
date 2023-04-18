@@ -9,32 +9,63 @@ private:
     int flagCount;
     int openBlankCount;
     int remainBlankCount;
+    char previousChar;
     bool isEnd;
     bool clickFailed;
-    char previousChar;
 
 public:
     Playing(int row, int col, vector<vector<char>>& board)
     {
-        bombCount = 0;
-        flagCount = 0;
-        openBlankCount = 0;
-        remainBlankCount = 0;
+        this->bombCount = 0;
+        this->flagCount = 0;
+        this->openBlankCount = 0;
+        this->remainBlankCount = 0;
         this->row = row;
         this->col = col;
-        isEnd = false;
-        clickFailed = false;
-        previousChar = ' ';
+        this->isEnd = false;
+        this->clickFailed = false;
+        this->previousChar = ' ';
 
         for (int i = 0; i < row; i++)
         {
             for (int j = 0; j < col; j++)
             {
                 if (board[i][j] == 'X') {
-                    bombCount++;
+                    this->bombCount++;
                 }
             }
         }
+    }
+
+    int getBombCount()
+    {
+        return this->bombCount;
+    }
+
+    int getFlagCount()
+    {
+        return this->flagCount;
+    }
+
+    int getOpenBlankCount()
+    {
+        return this->openBlankCount;
+    }
+
+    int getRemainBlankCount()
+    {
+        return this->remainBlankCount;
+    }
+
+    bool checkClickFailed()
+    {
+        if (this->clickFailed)
+        {
+            this->clickFailed = false;
+            return true;
+        }
+
+        return false;
     }
 
     void calculateBlankCount(vector<vector<char>>& board)
@@ -57,31 +88,7 @@ public:
             }
         }
 
-        this->remainBlankCount -= bombCount;
-    }
-
-    int getBombCount()
-    {
-        // cout << bombCount << endl;
-        return bombCount;
-    }
-
-    int getFlagCount()
-    {
-        // cout << flagCount << endl;
-        return flagCount;
-    }
-
-    int getOpenBlankCount()
-    {
-        // cout << openBlankCount << endl;
-        return openBlankCount;
-    }
-
-    int getRemainBlankCount()
-    {
-        // cout << remainBlankCount << endl;
-        return remainBlankCount;
+        this->remainBlankCount -= this->bombCount;
     }
 
     void setPreviousChar(vector<vector<char>>& board, int x, int y)
@@ -107,7 +114,7 @@ public:
         {
             board[x][y] = '0';
 
-            remainBlankCount--;
+            this->remainBlankCount--;
 
             for (int i = -1; i <= 1; i++) 
             {
@@ -128,7 +135,7 @@ public:
         else if ((board[x][y] == '#' || board[x][y] == '?') && isdigit(ans[x][y]) && ans[x][y] != '0')
         {
             board[x][y] = ans[x][y];
-            remainBlankCount--;
+            this->remainBlankCount--;
         }
         else if (ans[x][y] == 'X')
         {
@@ -145,42 +152,27 @@ public:
         }
     }
 
-    void markFlag(vector<vector<char>>& board, int x, int y)
-    {
-        board[x][y] = 'f';
-        flagCount++;
-    }
-
-    void markQuestion(vector<vector<char>>& board, int x, int y)
-    {
-        board[x][y] = '?';
-        flagCount--;
-    }
-
-    void unmark(vector<vector<char>>& board, int x, int y)
-    {
-        board[x][y] = '#';
-    }
-
     void rightClick(vector<vector<char>>& board, int x, int y)
     {
         if (isdigit(board[x][y]) || x < 0 || x >= board.size() || y < 0 || y >= board[0].size())
         {
-            clickFailed = true;
+            this->clickFailed = true;
             return;
         }
 
         if (board[x][y] == '#')
         {
-            markFlag(board, x, y);
+            board[x][y] = 'f';
+            this->flagCount++;
         }
         else if (board[x][y] == 'f')
         {
-            markQuestion(board, x, y);
+            board[x][y] = '?';
+            this->flagCount--;
         }
         else if (board[x][y] == '?')
         {
-            unmark(board, x, y);
+            board[x][y] = '#';
         }
     }
 
@@ -195,7 +187,6 @@ public:
         }
         
         calculateBlankCount(board);
-        cout << "Remain: " << this->remainBlankCount << endl;
 
         if (this->remainBlankCount == 0)
         {
@@ -204,17 +195,6 @@ public:
             isEnd = true;
             isWin = true;
         }
-    }
-
-    bool checkClickFailed()
-    {
-        if (clickFailed)
-        {
-            clickFailed = false;
-            return true;
-        }
-
-        return false;
     }
 
 };

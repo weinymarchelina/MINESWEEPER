@@ -4,7 +4,6 @@ while (!isExit)
 
     if (gameState == standByState)
     {
-        cout << "test" << endl;
         gameStandBy.loadBoard("board1.txt");
         // gameStandBy.loadBoard("board2.txt");
         // gameStandBy.loadBoard("board5.txt");

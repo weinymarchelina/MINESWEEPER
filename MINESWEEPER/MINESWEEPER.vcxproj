@@ -136,7 +136,6 @@
   <ItemGroup>
     <ClInclude Include="main.h" />
     <ClInclude Include="output1.txt" />
-    <ClInclude Include="Testing.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="board10.txt" />
