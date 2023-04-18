@@ -1,0 +1,12 @@
+Print Gamestate
+Load BoardFile board1.txt
+LeftClick 0 0
+StartGame
+Print GameBoard
+Print GameAnswer
+Print Gamestate
+LeftClick 1 1
+RightClick 2 4
+RightClick 2 4
+RightClick 2 4
+LeftClick 2 4
