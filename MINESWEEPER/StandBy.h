@@ -233,8 +233,6 @@ public:
         return false;
     }
 
-    //
-
     void startGame(State& gameState)
     {
         gameState = playingState;

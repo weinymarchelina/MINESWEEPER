@@ -122,11 +122,9 @@ public:
 		}
 	}
 
-
 	void printInstructionError()
 	{
 		cout << formatString("Input Error") << "Instruction Invalid" << endl;
 	}
-
 
 };

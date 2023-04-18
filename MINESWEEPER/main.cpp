@@ -12,7 +12,7 @@ bool isExit = false;
 int main()
 {
     string inputMethod, inputFile, outputFile;
-    cin >> inputMethod >> inputMethod >> inputFile >> outputFile;
+    // cin >> inputMethod >> inputMethod >> inputFile >> outputFile;
     // Start gameStart("inputFile", "outputFile");
     // Start gameStart("input.txt", "output.txt");
     Start gameStart("standByInput.txt", "output.txt");
@@ -36,9 +36,6 @@ int main()
 
             inputLine >> command;
             fullInputLine = command;
-
-            // cout << "You inserted: " << command << endl;
-            // cout << "Status now, board loaded? " << gameStandBy.checkBoardLoaded() << endl;
 
             if (command == "Load")
             {
@@ -127,7 +124,7 @@ int main()
 
         while (gameState == playingState)
         {
-            isExit = true;
+            
         }
 
         GameOver gameGameOver;
