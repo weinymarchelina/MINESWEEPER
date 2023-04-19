@@ -35,13 +35,15 @@ int main()
     MineSweeper.exe CommandFile command3.txt output3.txt
     */
     
-    gameState = standByState;
+    gameState =
+        standByState;
     
     while (!isExit)
     {
         vector<vector<char>> answerBoard;
         vector<vector<char>> playingBoard;
-        int row = 0, col = 0;
+        int row = 0, col = 0, fixedBomb = 0;
+        float rate = 0.0;
         bool isWin = false, isEnd = false;
 
         StandBy gameStandBy;
@@ -83,8 +85,63 @@ int main()
                         break;
                     }
                 }
+                else if (boardInputType == "RandomCount")
+                {
+                    inputLine >> row >> col >> fixedBomb;
+
+                    if (row <= 0 || col <= 0 || fixedBomb <= 0)
+                    {
+                        cout << "INVALID RANDOM COUNT" << endl;
+                        gameStart.printOutput(gameStart.formatStatusString(fullInputLine, false));
+                    }
+                    else
+                    {
+                        cout << "VALID RANDOM COUNT" << endl;
+                        gameStandBy.inputFixedBoardCount(row, col, fixedBomb);
+
+                        if (!gameStandBy.checkError() || gameStandBy.checkBoardLoaded())
+                        {
+                            gameStandBy.setGameAnswer(answerBoard);
+                            gameStandBy.setPlayingBoard(playingBoard);
+                            gameStart.printOutput(gameStart.formatStatusString(fullInputLine, true));
+                        }
+                        else
+                        {
+                            gameStart.printOutput(gameStart.formatStatusString(fullInputLine, false));
+                            break;
+                        }
+                    }
+                }
+                else if (boardInputType == "RandomRate")
+                {
+                    inputLine >> row >> col >> rate;
+
+                    if (row <= 0 || col <= 0 || rate <= 0)
+                    {
+                        cout << "INVALID RANDOM RATE" << endl;
+                        gameStart.printOutput(gameStart.formatStatusString(fullInputLine, false));
+                    }
+                    else
+                    {
+                        cout << "VALID RANDOM RATE" << endl;
+                        gameStandBy.inputFixedBoardRate(row, col, rate);
+
+                        if (!gameStandBy.checkError() || gameStandBy.checkBoardLoaded())
+                        {
+                            gameStandBy.setGameAnswer(answerBoard);
+                            gameStandBy.setPlayingBoard(playingBoard);
+                            gameStart.printOutput(gameStart.formatStatusString(fullInputLine, true));
+                        }
+                        else
+                        {
+                            gameStart.printOutput(gameStart.formatStatusString(fullInputLine, false));
+                            break;
+                        }
+                    }
+                }
                 else
                 {
+                    cout << "COMMAND NOT FOUND" << endl;
                     gameStart.printInvalidCommand(fullInputLine, inputLine);
                     break;
                 }

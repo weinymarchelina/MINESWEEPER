@@ -7,7 +7,8 @@
 #include <fstream>
 #include <sstream>
 #include <cctype>
-
+#include <time.h>
+#include <utility>
 using namespace std;
 
 enum State {
@@ -16,5 +17,6 @@ enum State {
     playingState,
     gameOverState
 };
+
 
 #endif // MAIN_H
