@@ -39,7 +39,6 @@ public:
 	{
 		if (this->isError)
 		{
-			cout << "ERROR FOUND" << endl;
 			return true;
 		}
 
@@ -53,7 +52,6 @@ public:
 			return true;
 		}
 
-		cout << "BOARD NOT LOADED" << endl;
 		return false;
 	}
 
@@ -161,7 +159,6 @@ public:
 				if (c != 'O' && c != 'X')
 				{
 					// Board contains invalid character
-					cout << "INVALID CHAR" << endl;
 					this->isError = true;
 					return;
 				}
@@ -195,13 +192,9 @@ public:
 		board.clear();
 		answerBoard.clear();
 
-		cout << "INPUT FIXED BOARD" << endl;
 		vector<pair<int, int>> memo;	// To keep the coordinate of the bombs
 		this->row = row;	// Set the amount of row
 		this->col = col;	// Set the amount of col
-
-		cout << "ROW: " << row << endl;
-		cout << "COL: " << col << endl;
 
 		this->board.resize(row, vector<char>(col, 'O'));	// Resize the board according to given row and col, and set it to 0
 
@@ -239,18 +232,6 @@ public:
 			this->board[x][y] = 'X';
 		}
 
-		/*
-		cout << "PRINTING BASIC ANSWER BOARD" << endl;
-		for (int i = 0; i < row; i++)
-		{
-			for (int j = 0; j < col; j++)
-			{
-				cout << board[i][j] << " ";
-			}
-			cout << endl;
-		}
-		*/
-
 		this->isBoardLoaded = true;
 
 		calculateRadius();
@@ -266,17 +247,11 @@ public:
 		board.clear();
 		answerBoard.clear();
 
-		cout << "CALLING INPUT FIXED BOARD RATE" << endl;
 		rate *= 10;	// Multiplies rate by 10
 		rate = (int) rate;	// Cast it to integer
 
 		this->row = row;	// Set row
 		this->col = col;	// Set col
-		//int count = 0;
-
-		cout << "ROW: " << row << endl;
-		cout << "COL: " << col << endl;
-
 
 		srand(time(NULL));
 		this->board.resize(row, vector<char>(col, 'O'));	// Resize the board according to given row and col, and set it to 0
@@ -298,18 +273,6 @@ public:
 				}
 			}
 		}
-
-		/*
-cout << "PRINTING BASIC ANSWER BOARD" << endl;
-for (int i = 0; i < row; i++)
-{
-	for (int j = 0; j < col; j++)
-	{
-		cout << board[i][j] << " ";
-	}
-	cout << endl;
-}
-*/
 
 		calculateRadius();
 	}

@@ -1,9 +1,13 @@
 Load RandomCount 9 9 7
+Print GameAnswer
 Load BoardFile ./boards/board1.txt
+Load RandomRate 5 15 0.95
+Print GameAnswer
 Load RandomCount 9 9 100
 Load RandomCount 0 7 3
 Load RandomRate 5 5 100
 Load RandomRate 9 9 0.3
+Print GameAnswer
 Load BoardFile ./boards/board2.txt
 StartGame
 Print GameAnswer

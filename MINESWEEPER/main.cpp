@@ -36,8 +36,7 @@ int main()
     MineSweeper.exe CommandFile commandCustom.txt outputCustom.txt
     */
     
-    gameState =
-        standByState;
+    gameState = standByState;
     
     while (!isExit)
     {
@@ -50,22 +49,20 @@ int main()
 
         while (gameState == standByState)
         {
-            cout << endl << "NEED TO READ NEW BOARD! " << endl;
-            answerBoard.clear();
-            playingBoard.clear();
-            row = 0;
-            col = 0;
-
             istringstream inputLine = gameStart.getCommand();
             string command;
             string fullInputLine = "";
 
             inputLine >> command;
             fullInputLine = command;
-            cout << command << endl;
 
             if (command == "Load")
             {
+                answerBoard.clear();
+                playingBoard.clear();
+                row = 0;
+                col = 0;
+
                 string boardInputType = "";
                 inputLine >> boardInputType;
                 fullInputLine += " " + boardInputType;
@@ -77,7 +74,6 @@ int main()
 
                     gameStandBy.loadFileBoard(boardFileName);
                     fullInputLine += " " + boardFileName;
-                    cout << "INPUTTING:  " << fullInputLine << endl;
                 }
                 else if (boardInputType == "RandomCount")
                 {
@@ -85,16 +81,13 @@ int main()
                     inputLine >> row >> col >> fixedBomb;
 
                     fullInputLine += (" " + to_string(row) + " " + to_string(col) + " " + to_string(fixedBomb));
-                    cout << "INPUTTING:  " << fullInputLine << endl;
 
                     if (row <= 0 || col <= 0 || fixedBomb < 0 || fixedBomb > (row*col))
                     {
-                        cout << "INVALID RANDOM COUNT  " << fullInputLine << endl;
                         gameStart.printOutput(gameStart.formatStatusString(fullInputLine, false));
                         continue;
                     }
 
-                    cout << "VALID RANDOM COUNT" << endl;
                     gameStandBy.loadFixedBoardCount(row, col, fixedBomb);
                 }
                 else if (boardInputType == "RandomRate")
@@ -107,26 +100,21 @@ int main()
                     string stringFloat = streamObj.str();
 
                     fullInputLine += (" " + to_string(row) + " " + to_string(col) + " " + stringFloat);
-                    cout << "INPUTTING:  " << fullInputLine << endl;
 
                     if (row <= 0 || col <= 0 || rate < 0 || rate > 1)
                     {
-                        cout << "INVALID RANDOM RATE " << fullInputLine << endl;
                         gameStart.printOutput(gameStart.formatStatusString(fullInputLine, false));
                         continue;
                     }
 
-                    cout << "VALID RANDOM RATE" << endl;
                     gameStandBy.loadFixedBoardRate(row, col, rate);
                 }
                 else
                 {
-                    cout << "COMMAND NOT FOUND" << endl;
                     gameStart.printInvalidCommand(fullInputLine, inputLine);
                     continue;
                 }
 
-                cout << "CHECKING TIME" << endl;
                 if (!gameStandBy.checkError() || gameStandBy.checkBoardLoaded())
                 {
                     row = gameStandBy.getRow();
@@ -134,11 +122,9 @@ int main()
                     gameStandBy.setGameAnswer(answerBoard);
                     gameStandBy.setPlayingBoard(playingBoard);
                     gameStart.printOutput(gameStart.formatStatusString(fullInputLine, true));
-                    cout << "PASS" << endl;
                 }
                 else
                 {
-                    cout << "ERROR!" << endl;
                     gameStart.printOutput(gameStart.formatStatusString(fullInputLine, false));
                     break;
                 }
@@ -288,13 +274,11 @@ int main()
                 else
                 {
                     gameStart.printInvalidCommand(fullInputLine, inputLine);
-                    
                 }
             }
             else
             {
                 gameStart.printInvalidCommand(fullInputLine, inputLine);
-              
             }
         }
 
