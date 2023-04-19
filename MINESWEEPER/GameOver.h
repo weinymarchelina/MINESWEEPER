@@ -1,17 +1,28 @@
+#ifndef GAMEOVER_H
+#define GAMEOVER_H
+
 #include "main.h"
 
 class GameOver
 {
 public:
-	void replay(State& gameState)
+	// Intent: Replay the game or quit and exit the program
+	// Pre: gameState must be valid and isExit must be initialized to false
+	// Pos: Changes the gameState to standByState
+	void replay(STATE& gameState)
 	{
-		gameState = standByState;
+		gameState = STANDBY;
 	}
 
-	void quit(State& gameState, bool& isExit)
+	// Intent: Quit the game and exit the program
+	// Pre: gameState must be valid and isExit must be initialized to false
+	// Pos: Changes the gameState to startState and sets isExit to true
+	void quit(STATE& gameState, bool& isExit)
 	{
-		gameState = startState;
+		gameState = START;
 		isExit = true;
 	}
 
 };
+
+#endif // GAMEOVER_H

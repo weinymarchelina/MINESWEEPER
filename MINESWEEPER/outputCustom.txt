@@ -1,36 +1,36 @@
 <Load RandomCount 9 9 7> : Success
 <Print GameAnswer> : 
 1 1 0 0 0 0 0 0 0 
-X 1 0 0 1 1 1 0 0 
-1 1 0 1 2 X 1 0 0 
-1 1 0 2 X 3 1 0 0 
-X 2 0 2 X 2 0 0 0 
-X 2 0 1 2 2 1 0 0 
-1 1 0 0 1 X 1 0 0 
-0 0 0 0 1 1 1 0 0 
-0 0 0 0 0 0 0 0 0 
+X 1 0 0 0 0 0 0 0 
+1 2 1 1 0 1 1 1 0 
+0 1 X 1 0 1 X 1 0 
+0 1 1 1 0 2 2 2 0 
+0 0 0 0 0 1 X 1 0 
+0 0 0 0 0 1 1 2 1 
+0 0 1 2 2 1 0 1 X 
+0 0 1 X X 1 0 1 1 
 <Load BoardFile ./boards/board1.txt> : Success
 <Load RandomRate 5 15 0.95> : Success
 <Print GameAnswer> : 
+X X X 5 X X X X X X X X 5 X X 
 X X X X X X X X X X X X X X X 
-4 7 X X X X X 8 X X X X 7 X X 
-X X X 7 X X X X X X X X X 7 X 
-X X 7 X X X X X X X X X X X X 
+X X X X X X X X X X X X X X X 
+X X X X X X X X X X X 8 X X X 
 X X X X X X 5 X X X X X X X X 
 <Load RandomCount 9 9 100> : Failed
 <Load RandomCount 0 7 3> : Failed
 <Load RandomRate 5 5 100.00> : Failed
 <Load RandomRate 9 9 0.30> : Success
 <Print GameAnswer> : 
-X 4 X 3 X 3 X 2 X 
-3 X X 4 3 X 2 2 1 
-2 X 5 X 4 2 3 1 1 
-2 3 5 X 3 X 2 X 1 
-1 X X 2 2 2 4 3 2 
-2 3 3 1 0 2 X X 2 
-1 X 2 1 0 2 X X 3 
-2 3 X 3 2 3 4 5 X 
-1 X 3 X X 2 X X 2 
+1 X 1 0 2 X X X X 
+2 2 2 0 2 X 5 4 2 
+1 X 2 1 2 2 X 2 1 
+2 2 2 X 1 2 2 4 X 
+X 2 1 1 1 1 X 3 X 
+X 4 1 0 0 2 3 4 2 
+X X 2 1 0 2 X X 1 
+2 4 X 2 0 3 X 5 2 
+0 2 X 2 0 2 X X 1 
 <Load BoardFile ./boards/board2.txt> : Success
 <StartGame> : Success
 <Print GameAnswer> : 

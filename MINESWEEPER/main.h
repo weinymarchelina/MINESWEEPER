@@ -12,11 +12,12 @@
 #include <iomanip>
 using namespace std;
 
-enum State {
-    startState = 0,
-    standByState,
-    playingState,
-    gameOverState
+// Enum representing the different states of the game
+enum STATE {
+    START = 0,   // The starting state of the game
+    STANDBY,     // The state when the game is waiting for user input
+    PLAYING,     // The state when the game is in progress
+    GAMEOVER     // The state when the game is over
 };
 
 

@@ -128,7 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameOver.h" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="Playing.h" />
     <ClCompile Include="StandBy.h" />
     <ClCompile Include="Start.h" />
