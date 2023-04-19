@@ -85,5 +85,6 @@
     <Text Include="output3.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="commandCustom.txt" />
   </ItemGroup>
 </Project>

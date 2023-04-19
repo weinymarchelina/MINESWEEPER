@@ -1,4 +1,4 @@
-Load BoardFile board1.txt
+Load BoardFile ./boards/board1.txt
 StartGame
 LeftClick 0 7
 Print GameBoard

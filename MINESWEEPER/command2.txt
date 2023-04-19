@@ -1,5 +1,5 @@
 StartGame
-Load BoardFile board2.txt
+Load BoardFile ./boards/board2.txt
 StartGame
 Print GameAnswer
 Print GameBoard
@@ -30,7 +30,7 @@ RightClick 9 4
 LeftClick 0 7
 Replay
 StartGame
-Load BoardFile board10.txt
+Load BoardFile ./boards/board3.txt
 StartGame
 Print GameAnswer
 Print GameBoard

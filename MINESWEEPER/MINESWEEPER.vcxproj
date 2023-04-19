@@ -147,6 +147,7 @@
     <Text Include="command1.txt" />
     <Text Include="command2.txt" />
     <Text Include="command3.txt" />
+    <Text Include="commandCustom.txt" />
     <Text Include="input.txt" />
     <Text Include="output.txt" />
     <Text Include="output2.txt" />

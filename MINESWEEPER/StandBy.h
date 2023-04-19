@@ -39,6 +39,7 @@ public:
 	{
 		if (this->isError)
 		{
+			cout << "ERROR FOUND" << endl;
 			return true;
 		}
 
@@ -52,6 +53,7 @@ public:
 			return true;
 		}
 
+		cout << "BOARD NOT LOADED" << endl;
 		return false;
 	}
 
@@ -156,9 +158,10 @@ public:
 			{
 				char c = line[j];
 
-				if (c != 'O' || c != 'X')
+				if (c != 'O' && c != 'X')
 				{
 					// Board contains invalid character
+					cout << "INVALID CHAR" << endl;
 					this->isError = true;
 					return;
 				}
@@ -189,6 +192,9 @@ public:
 	*/
 	void loadFixedBoardCount(int row, int col, int fixedBomb)
 	{
+		board.clear();
+		answerBoard.clear();
+
 		cout << "INPUT FIXED BOARD" << endl;
 		vector<pair<int, int>> memo;	// To keep the coordinate of the bombs
 		this->row = row;	// Set the amount of row
@@ -233,6 +239,7 @@ public:
 			this->board[x][y] = 'X';
 		}
 
+		/*
 		cout << "PRINTING BASIC ANSWER BOARD" << endl;
 		for (int i = 0; i < row; i++)
 		{
@@ -242,6 +249,7 @@ public:
 			}
 			cout << endl;
 		}
+		*/
 
 		this->isBoardLoaded = true;
 
@@ -255,6 +263,9 @@ public:
 	*/
 	void loadFixedBoardRate(int row, int col, float rate)
 	{
+		board.clear();
+		answerBoard.clear();
+
 		cout << "CALLING INPUT FIXED BOARD RATE" << endl;
 		rate *= 10;	// Multiplies rate by 10
 		rate = (int) rate;	// Cast it to integer
@@ -288,23 +299,25 @@ public:
 			}
 		}
 
-		cout << "PRINTING BASIC ANSWER BOARD" << endl;
-		for (int i = 0; i < row; i++)
-		{
-			for (int j = 0; j < col; j++)
-			{
-				cout << board[i][j] << " ";
-			}
-			cout << endl;
-		}
-
-		this->isBoardLoaded = true;
+		/*
+cout << "PRINTING BASIC ANSWER BOARD" << endl;
+for (int i = 0; i < row; i++)
+{
+	for (int j = 0; j < col; j++)
+	{
+		cout << board[i][j] << " ";
+	}
+	cout << endl;
+}
+*/
 
 		calculateRadius();
 	}
 
 	void loadFileBoard(string inputFileName)
 	{
+		board.clear();
+		answerBoard.clear();
 		inputFileBoard(inputFileName);
 		this->inputFile.close();
 	}

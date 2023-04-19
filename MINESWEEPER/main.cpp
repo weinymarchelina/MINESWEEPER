@@ -16,13 +16,13 @@ int main()
 
     do 
     {
-        // cin >> inputMethod >> inputMethod >> inputFile >> outputFile;
+        cin >> inputMethod >> inputMethod >> inputFile >> outputFile;
         // inputFile = "command1.txt";
         // outputFile = "output1.txt";
         // inputFile = "command2.txt";
         // outputFile = "output2.txt";
-        inputFile = "command3.txt";
-        outputFile = "output3.txt";
+        // inputFile = "command3.txt";
+        // outputFile = "output3.txt";
 
         gameStart.setFiles(inputFile, outputFile);
     } while (!gameStart.readInputFile());
@@ -33,6 +33,7 @@ int main()
     MineSweeper.exe CommandFile command1.txt output1.txt
     MineSweeper.exe CommandFile command2.txt output2.txt
     MineSweeper.exe CommandFile command3.txt output3.txt
+    MineSweeper.exe CommandFile commandCustom.txt outputCustom.txt
     */
     
     gameState =
@@ -49,12 +50,19 @@ int main()
 
         while (gameState == standByState)
         {
+            cout << endl << "NEED TO READ NEW BOARD! " << endl;
+            answerBoard.clear();
+            playingBoard.clear();
+            row = 0;
+            col = 0;
+
             istringstream inputLine = gameStart.getCommand();
             string command;
             string fullInputLine = "";
 
             inputLine >> command;
             fullInputLine = command;
+            cout << command << endl;
 
             if (command == "Load")
             {
@@ -69,6 +77,7 @@ int main()
 
                     gameStandBy.loadFileBoard(boardFileName);
                     fullInputLine += " " + boardFileName;
+                    cout << "INPUTTING:  " << fullInputLine << endl;
                 }
                 else if (boardInputType == "RandomCount")
                 {
@@ -80,7 +89,7 @@ int main()
 
                     if (row <= 0 || col <= 0 || fixedBomb < 0 || fixedBomb > (row*col))
                     {
-                        cout << "INVALID RANDOM COUNT " << fullInputLine << endl;
+                        cout << "INVALID RANDOM COUNT  " << fullInputLine << endl;
                         gameStart.printOutput(gameStart.formatStatusString(fullInputLine, false));
                         continue;
                     }
@@ -98,7 +107,7 @@ int main()
                     string stringFloat = streamObj.str();
 
                     fullInputLine += (" " + to_string(row) + " " + to_string(col) + " " + stringFloat);
-                    cout << "INPUTTING: " << fullInputLine << endl;
+                    cout << "INPUTTING:  " << fullInputLine << endl;
 
                     if (row <= 0 || col <= 0 || rate < 0 || rate > 1)
                     {
@@ -114,7 +123,7 @@ int main()
                 {
                     cout << "COMMAND NOT FOUND" << endl;
                     gameStart.printInvalidCommand(fullInputLine, inputLine);
-                    break;
+                    continue;
                 }
 
                 cout << "CHECKING TIME" << endl;
@@ -129,6 +138,7 @@ int main()
                 }
                 else
                 {
+                    cout << "ERROR!" << endl;
                     gameStart.printOutput(gameStart.formatStatusString(fullInputLine, false));
                     break;
                 }

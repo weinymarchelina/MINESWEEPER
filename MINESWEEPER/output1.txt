@@ -1,4 +1,4 @@
-<Load BoardFile board1.txt> : Success
+<Load BoardFile ./boards/board1.txt> : Success
 <StartGame> : Success
 <LeftClick 0 7> : Success
 <Print GameBoard> : 
