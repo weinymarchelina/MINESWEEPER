@@ -55,7 +55,52 @@ public:
 		return false;
 	}
 
-	void inputBoard(string inputFileName)
+	void calculateRadius()
+	{
+		if (!this->isBoardLoaded)
+		{
+			return;
+		}
+
+		int row = this->row;
+		int col = this->col;
+
+		this->answerBoard.resize(row, vector<char>(col, '0'));
+
+		for (int i = 0; i < row; i++)
+		{
+			for (int j = 0; j < col; j++)
+			{
+				if (this->board[i][j] == 'X')
+				{
+					// if current cell is a bomb, mark it as 'X'
+					this->answerBoard[i][j] = 'X';
+				}
+				else
+				{
+					int count = 0;
+
+					// check all neighboring cells for bombs
+					for (int r = max(i - 1, 0); r <= min(i + 1, row - 1); r++)
+					{
+						for (int c = max(j - 1, 0); c <= min(j + 1, col - 1); c++)
+						{
+
+							//if the neighboring cell contains a bomb, increment the count variable
+							if (this->board[r][c] == 'X') {
+								count++;
+							}
+						}
+					}
+
+					// convert count to a character and store in modified board
+					this->answerBoard[i][j] = '0' + count;
+				}
+			}
+		}
+	}
+
+	void inputFileBoard(string inputFileName)
 	{
 		this->inputFile.open(inputFileName, ios::in);
 		this->isBoardLoaded = false;
@@ -88,8 +133,6 @@ public:
 		this->board.resize(row, vector<char>(col));
 
 		int lineNum = 0;
-		bool hasO = false;
-		bool hasX = false;
 
 		while (getline(this->inputFile, line))
 		{
@@ -113,15 +156,7 @@ public:
 			{
 				char c = line[j];
 
-				if (c == 'O')
-				{
-					hasO = true;
-				}
-				else if (c == 'X')
-				{
-					hasX = true;
-				}
-				else
+				if (c != 'O' || c != 'X')
 				{
 					// Board contains invalid character
 					this->isError = true;
@@ -134,13 +169,6 @@ public:
 			lineNum++;
 		}
 
-		if (!hasO || !hasX)
-		{
-			// Board does not contain both 'O' and 'X' characters
-			this->isError = true;
-			return;
-		}
-
 		// Check if there are too few rows in the input file
 		if (lineNum < row)
 		{
@@ -150,6 +178,8 @@ public:
 		}
 
 		this->isBoardLoaded = true;
+
+		calculateRadius();
 	}
 
 	/*
@@ -157,7 +187,7 @@ public:
 	 / Pre: row, col, fixedBomb have a valid value
 	 / Post: Set the new answer board
 	*/
-	void inputFixedBoardCount(int row, int col, int fixedBomb)
+	void loadFixedBoardCount(int row, int col, int fixedBomb)
 	{
 		cout << "INPUT FIXED BOARD" << endl;
 		vector<pair<int, int>> memo;	// To keep the coordinate of the bombs
@@ -223,7 +253,7 @@ public:
 	 / Pre: row, col, fixedBomb hava a valid value
 	 / Post: Set the new answer board
 	*/
-	void inputFixedBoardRate(int row, int col, float rate)
+	void loadFixedBoardRate(int row, int col, float rate)
 	{
 		cout << "CALLING INPUT FIXED BOARD RATE" << endl;
 		rate *= 10;	// Multiplies rate by 10
@@ -273,99 +303,9 @@ public:
 		calculateRadius();
 	}
 
-	/**
-	 / Intent: Update the answer board, but only if the user gives a fixed row, col, and bomb rates or amount of bomb
-	 / Pre: The answer board already have bombs
-	 / Post: Update the answer board
-	*/
-	void createAnswerBoard()
+	void loadFileBoard(string inputFileName)
 	{
-		cout << "CALLING ANSWER BOARD" << endl;
-		cout << "ROW: " << row << endl;
-		cout << "COL: " << col << endl;
-		// Iterates through the board
-		for (int i = 0; i < row; i++)
-		{
-			for (int j = 0; j < col; j++)
-			{
-				if (this->answerBoard[i][j] == 'X')
-				{
-					// if current cell is a bomb, mark it as 'X'
-					continue;
-				}
-				else
-				{
-					int count = 0;
-
-					// check all neighboring cells for bombs
-					for (int r = max(i - 1, 0); r <= min(i + 1, row - 1); r++)
-					{
-						for (int c = max(j - 1, 0); c <= min(j + 1, col - 1); c++)
-						{
-
-							//if the neighboring cell contains a bomb, increment the count variable
-							if (this->answerBoard[r][c] == 'X') {
-								count++;
-							}
-						}
-					}
-
-					// convert count to a character and store in modified board
-					this->answerBoard[i][j] = '0' + count;
-				}
-			}
-		}
-	}
-
-	void calculateRadius()
-	{
-		if (!this->isBoardLoaded)
-		{
-			return;
-		}
-
-		int row = this->row;
-		int col = this->col;
-
-		this->answerBoard.resize(row, vector<char>(col, '0'));
-
-		for (int i = 0; i < row; i++)
-		{
-			for (int j = 0; j < col; j++)
-			{
-				if (this->board[i][j] == 'X')
-				{
-					// if current cell is a bomb, mark it as 'X'
-					this->answerBoard[i][j] = 'X';
-				}
-				else
-				{
-					int count = 0;
-
-					// check all neighboring cells for bombs
-					for (int r = max(i - 1, 0); r <= min(i + 1, row - 1); r++)
-					{
-						for (int c = max(j - 1, 0); c <= min(j + 1, col - 1); c++)
-						{
-
-							//if the neighboring cell contains a bomb, increment the count variable
-							if (this->board[r][c] == 'X') {
-								count++;
-							}
-						}
-					}
-
-					// convert count to a character and store in modified board
-					this->answerBoard[i][j] = '0' + count;
-				}
-			}
-		}
-	}
-
-	void loadBoard(string inputFileName)
-	{
-		inputBoard(inputFileName);
-		calculateRadius();
+		inputFileBoard(inputFileName);
 		this->inputFile.close();
 	}
 

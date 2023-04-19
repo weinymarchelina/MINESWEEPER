@@ -1,7 +1,6 @@
-Load RandomRate -1 100 0.3
-Load RandomRate 12 0 0.3
-Load RandomRate 10 10 0
-Load RandomRate 9 9 0.3
+Load RandomCount 0 8 10
+Load RandomCount 10 10 -1
+Load RandomCount 9 9 7
 StartGame
 Print GameBoard
 Print GameAnswer

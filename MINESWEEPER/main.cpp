@@ -42,8 +42,7 @@ int main()
     {
         vector<vector<char>> answerBoard;
         vector<vector<char>> playingBoard;
-        int row = 0, col = 0, fixedBomb = 0;
-        float rate = 0.0;
+        int row = 0, col = 0;
         bool isWin = false, isEnd = false;
 
         StandBy gameStandBy;
@@ -68,81 +67,69 @@ int main()
                     string boardFileName = "";
                     inputLine >> boardFileName;
 
-                    gameStandBy.loadBoard(boardFileName);
+                    gameStandBy.loadFileBoard(boardFileName);
                     fullInputLine += " " + boardFileName;
-
-                    if (!gameStandBy.checkError() || gameStandBy.checkBoardLoaded())
-                    {
-                        row = gameStandBy.getRow();
-                        col = gameStandBy.getColumn();
-                        gameStandBy.setGameAnswer(answerBoard);
-                        gameStandBy.setPlayingBoard(playingBoard);
-                        gameStart.printOutput(gameStart.formatStatusString(fullInputLine, true));
-                    }
-                    else
-                    {
-                        gameStart.printOutput(gameStart.formatStatusString(fullInputLine, false));
-                        break;
-                    }
                 }
                 else if (boardInputType == "RandomCount")
                 {
+                    int fixedBomb = 0;
                     inputLine >> row >> col >> fixedBomb;
 
-                    if (row <= 0 || col <= 0 || fixedBomb <= 0)
-                    {
-                        cout << "INVALID RANDOM COUNT" << endl;
-                        gameStart.printOutput(gameStart.formatStatusString(fullInputLine, false));
-                    }
-                    else
-                    {
-                        cout << "VALID RANDOM COUNT" << endl;
-                        gameStandBy.inputFixedBoardCount(row, col, fixedBomb);
+                    fullInputLine += (" " + to_string(row) + " " + to_string(col) + " " + to_string(fixedBomb));
+                    cout << "INPUTTING:  " << fullInputLine << endl;
 
-                        if (!gameStandBy.checkError() || gameStandBy.checkBoardLoaded())
-                        {
-                            gameStandBy.setGameAnswer(answerBoard);
-                            gameStandBy.setPlayingBoard(playingBoard);
-                            gameStart.printOutput(gameStart.formatStatusString(fullInputLine, true));
-                        }
-                        else
-                        {
-                            gameStart.printOutput(gameStart.formatStatusString(fullInputLine, false));
-                            break;
-                        }
+                    if (row <= 0 || col <= 0 || fixedBomb < 0 || fixedBomb > (row*col))
+                    {
+                        cout << "INVALID RANDOM COUNT " << fullInputLine << endl;
+                        gameStart.printOutput(gameStart.formatStatusString(fullInputLine, false));
+                        continue;
                     }
+
+                    cout << "VALID RANDOM COUNT" << endl;
+                    gameStandBy.loadFixedBoardCount(row, col, fixedBomb);
                 }
                 else if (boardInputType == "RandomRate")
                 {
+                    float rate = 0.0;
                     inputLine >> row >> col >> rate;
 
-                    if (row <= 0 || col <= 0 || rate <= 0)
-                    {
-                        cout << "INVALID RANDOM RATE" << endl;
-                        gameStart.printOutput(gameStart.formatStatusString(fullInputLine, false));
-                    }
-                    else
-                    {
-                        cout << "VALID RANDOM RATE" << endl;
-                        gameStandBy.inputFixedBoardRate(row, col, rate);
+                    ostringstream streamObj;
+                    streamObj << fixed << setprecision(2) << rate;
+                    string stringFloat = streamObj.str();
 
-                        if (!gameStandBy.checkError() || gameStandBy.checkBoardLoaded())
-                        {
-                            gameStandBy.setGameAnswer(answerBoard);
-                            gameStandBy.setPlayingBoard(playingBoard);
-                            gameStart.printOutput(gameStart.formatStatusString(fullInputLine, true));
-                        }
-                        else
-                        {
-                            gameStart.printOutput(gameStart.formatStatusString(fullInputLine, false));
-                            break;
-                        }
+                    fullInputLine += (" " + to_string(row) + " " + to_string(col) + " " + stringFloat);
+                    cout << "INPUTTING: " << fullInputLine << endl;
+
+                    if (row <= 0 || col <= 0 || rate < 0 || rate > 1)
+                    {
+                        cout << "INVALID RANDOM RATE " << fullInputLine << endl;
+                        gameStart.printOutput(gameStart.formatStatusString(fullInputLine, false));
+                        continue;
                     }
+
+                    cout << "VALID RANDOM RATE" << endl;
+                    gameStandBy.loadFixedBoardRate(row, col, rate);
                 }
                 else
                 {
                     cout << "COMMAND NOT FOUND" << endl;
                     gameStart.printInvalidCommand(fullInputLine, inputLine);
+                    break;
+                }
+
+                cout << "CHECKING TIME" << endl;
+                if (!gameStandBy.checkError() || gameStandBy.checkBoardLoaded())
+                {
+                    row = gameStandBy.getRow();
+                    col = gameStandBy.getColumn();
+                    gameStandBy.setGameAnswer(answerBoard);
+                    gameStandBy.setPlayingBoard(playingBoard);
+                    gameStart.printOutput(gameStart.formatStatusString(fullInputLine, true));
+                    cout << "PASS" << endl;
+                }
+                else
+                {
+                    gameStart.printOutput(gameStart.formatStatusString(fullInputLine, false));
                     break;
                 }
             }

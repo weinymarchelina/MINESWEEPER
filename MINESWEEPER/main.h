@@ -9,6 +9,7 @@
 #include <cctype>
 #include <time.h>
 #include <utility>
+#include <iomanip>
 using namespace std;
 
 enum State {
